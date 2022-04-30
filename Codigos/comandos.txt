@@ -1,0 +1,56 @@
+// pwd pega o o caminho
+
+
+Dentro de 
+
+cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/PX4-Autopilot
+
+make px4_sitl gazebo_typhoon_h480
+
+make px4_sitl gazebo_typhoon_h480__ksql_airport
+
+You can bring it into the air by typing:
+pxh> 
+	commander takeoff	
+	
+Caso o drone não voar, setar essas variáveis:
+
+pxh>
+	param set NAV_RCL_ACT 0
+	param set NAV_DLL_ACT 0
+
+You can bring it down from air by typing:
+pxh>
+	commander land
+------------------------------------------------------------------------------------------------
+
+//em python
+
+
+examples/takeoff_and_land.py
+
+
+
+------------------------------------------------------------------------------------------------
+// teste em cpp 
+// gerar o executável do tests/test_takeoff.cpp
+
+cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system
+make build_tests
+
+// para rodar o executavel gerado
+
+cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/build/bin
+
+./test_takeoff udp://:14540
+
+
+------------------------------------------------------------------------------------------------
+
+// rodar o ganache
+
+ganache
+
+// rodar o deploy e o interac pelo vscode
+------------------------------------------------------------------------------------------------
+

@@ -1,2 +1,4 @@
-./PXA-Autopilot
-./build
+**/PX4-Autopilot
+**/build
+**/blockchain
+**/MAVSDK-Python

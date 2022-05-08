@@ -1,45 +1,119 @@
 from web3 import Web3
 from solcx import compile_source 
-#usar 3-4 posições prontas 
-#colocar as posições dentro do contrato e não fora
+
 # Solidity source code
 compiled_sol = compile_source(
      '''
      pragma solidity >0.5.0;
 
      contract Delivery {
-
-        struct Destiny {
+        struct Drone {
+            address payable droneOwner;
             string latitude_deg;
             string longitude_deg;
-            string flying;
+            uint flying;
+            uint idDrone;
         }
-        Destiny destiny;
+        mapping (uint => Drone ) public dronesCadastrados;
+        uint  qntDroneCadastrados;
+        address payable public contractOwner;     
+        
+        constructor() payable {
+            contractOwner = payable(msg.sender);
+            qntDroneCadastrados = 0;
+        }
+
+        function cadastrarDrone() public  {
+            dronesCadastrados[qntDroneCadastrados] = Drone(payable(msg.sender),"37.5236476", "-122.2551089", 0, qntDroneCadastrados );
+            qntDroneCadastrados = qntDroneCadastrados + 1;
+        }
+
+        function totalDronesCadastrados() public view returns (uint){
+            return qntDroneCadastrados;
+        }
+
+        function deposit() public payable {
+            
+        }
+
+        function getBalance() public view returns (uint, address){
+            return (contractOwner.balance, contractOwner);
+        }
+
+        function inTheDestiny(uint idDrone) public payable returns (address, address payable) {
+            require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
+            require(msg.sender == dronesCadastrados[idDrone-1].droneOwner, "You are not the owner!");
+            require(dronesCadastrados[idDrone-1].flying != 0 , "Drone ja esta no destino!.");
+            dronesCadastrados[idDrone-1].flying = 0;
+
+            payable(dronesCadastrados[idDrone-1].droneOwner).send(10);
+            return (msg.sender , dronesCadastrados[idDrone-1].droneOwner); 
+        }
+
+        function setDestinoOne(uint idDrone) public payable returns (bool){
+            uint amount = msg.value;
+            require(amount >= 10 ether, "Amount should be higer then 10 Ether");
+            require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
+            require(dronesCadastrados[idDrone-1].flying == 0 , "Drone nao disponivel.");
+          
+            uint amountToSend = 10 ether;
+
+            if(amount > amountToSend){
+                uint change = msg.value - amountToSend; 
+                payable(msg.sender).send(change);   
+            }
+            payable(contractOwner).send(amount);
          
-        constructor() public {
-            destiny = Destiny("0", "0", "0");
+            dronesCadastrados[idDrone-1].latitude_deg = "37.5236476"; 
+            dronesCadastrados[idDrone-1].longitude_deg = "-122.2551089";
+            dronesCadastrados[idDrone-1].flying = 1;
+            
+            return true;
         }
-   
-        function inTheDestiny() public {
+        
+        function setDestinoTwo(uint idDrone) public payable returns (bool){
+            uint amount = msg.value;
+            require(amount >= 10 ether, "Amount should be higer then 10 Ether");
+            require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
+            require(dronesCadastrados[idDrone-1].flying == 0 , "Drone nao disponivel.");
+          
+            uint amountToSend = 10 ether;
 
-            destiny.flying = "0";
+            if(amount > amountToSend){
+                uint change = msg.value - amountToSend; 
+                payable(msg.sender).send(change);   
+            }
+            payable(contractOwner).send(amount);
+
+            dronesCadastrados[idDrone-1].latitude_deg = "37.5232366";
+            dronesCadastrados[idDrone-1].longitude_deg = "-122.2611083";
+            dronesCadastrados[idDrone-1].flying = 1;
+            
+            return true;
+        }
+        function setDestinoThree(uint idDrone) public payable returns (bool){
+            uint amount = msg.value;
+            require(amount >= 10 ether, "Amount should be higer then 10 Ether");
+            require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
+            require(dronesCadastrados[idDrone-1].flying == 0 , "Drone nao disponivel.");
+          
+            uint amountToSend = 10 ether;
+
+            if(amount > amountToSend){
+                uint change = msg.value - amountToSend; 
+                payable(msg.sender).send(change);   
+            }
+            payable(contractOwner).send(amount);
+
+            dronesCadastrados[idDrone-1].latitude_deg = "37.53170714024128";
+            dronesCadastrados[idDrone-1].longitude_deg = "-122.26597954956488";
+            dronesCadastrados[idDrone-1].flying = 1;
+            
+            return true;
         }
 
-        function setDestinoOne() public {
-
-            destiny = Destiny("37.5236476", "-122.2551089", "1");
-        }
-        function setDestinoTwo() public {
-
-            destiny = Destiny("37.5232366", "-122.2611083", "1");
-        }
-        function setDestinoThree() public {
-
-            destiny = Destiny("37.5247619", "-122..2576713", "1");
-        }
-
-        function getDestino()public view returns (string memory, string memory,  string memory)  {
-            return (destiny.latitude_deg, destiny.longitude_deg, destiny.flying);
+        function getStatusDrone(uint idDrone)public view returns (string memory, string memory,  uint)  {
+            return (dronesCadastrados[idDrone -1 ].latitude_deg, dronesCadastrados[idDrone -1].longitude_deg, dronesCadastrados[idDrone -1].flying);
         }
      }  
      ''',

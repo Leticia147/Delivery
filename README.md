@@ -69,12 +69,12 @@ $ pxh>
 ### Caso o drone não voar, setar essas variáveis:
 
 $ pxh>
-	$	param set NAV_RCL_ACT 0
-	$	param set NAV_DLL_ACT 0
+$	param set NAV_RCL_ACT 0
+$	param set NAV_DLL_ACT 0
 
 ### You can bring it down from air by typing:
 $ pxh>
-	$	commander land
+$	commander land
 	
 ### Para executar o ganache, digitar no terminal
 $ ganache

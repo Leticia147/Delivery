@@ -16,10 +16,8 @@ compiled_sol = compile_source(
         }
         mapping (uint => Drone ) public dronesCadastrados;
         uint  qntDroneCadastrados;
-        address payable public contractOwner;     
-        
-        constructor() payable {
-            contractOwner = payable(msg.sender);
+
+        constructor()  {
             qntDroneCadastrados = 0;
         }
 
@@ -32,22 +30,18 @@ compiled_sol = compile_source(
             return qntDroneCadastrados;
         }
 
-        function deposit() public payable {
-            
+        function getBalance() public view returns (uint){
+            return (address(this).balance);
         }
 
-        function getBalance() public view returns (uint, address){
-            return (contractOwner.balance, contractOwner);
-        }
-
-        function inTheDestiny(uint idDrone) public payable returns (address, address payable) {
+        function withdraw (address payable addressToSend, uint idDrone) public {
             require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
-            require(msg.sender == dronesCadastrados[idDrone-1].droneOwner, "You are not the owner!");
+            require(msg.sender == dronesCadastrados[idDrone-1].droneOwner, "You are not drone owner!");
             require(dronesCadastrados[idDrone-1].flying != 0 , "Drone ja esta no destino!.");
-            dronesCadastrados[idDrone-1].flying = 0;
 
-            payable(dronesCadastrados[idDrone-1].droneOwner).send(10);
-            return (msg.sender , dronesCadastrados[idDrone-1].droneOwner); 
+            dronesCadastrados[idDrone-1].flying = 0;
+            payable(msg.sender).transfer(10 ether); 
+            
         }
 
         function setDestinoOne(uint idDrone) public payable returns (bool){
@@ -60,9 +54,8 @@ compiled_sol = compile_source(
 
             if(amount > amountToSend){
                 uint change = msg.value - amountToSend; 
-                payable(msg.sender).send(change);   
+                payable(msg.sender).transfer(change);   
             }
-            payable(contractOwner).send(amount);
          
             dronesCadastrados[idDrone-1].latitude_deg = "37.5236476"; 
             dronesCadastrados[idDrone-1].longitude_deg = "-122.2551089";
@@ -81,9 +74,8 @@ compiled_sol = compile_source(
 
             if(amount > amountToSend){
                 uint change = msg.value - amountToSend; 
-                payable(msg.sender).send(change);   
+                payable(msg.sender).transfer(change);   
             }
-            payable(contractOwner).send(amount);
 
             dronesCadastrados[idDrone-1].latitude_deg = "37.5232366";
             dronesCadastrados[idDrone-1].longitude_deg = "-122.2611083";
@@ -101,9 +93,8 @@ compiled_sol = compile_source(
 
             if(amount > amountToSend){
                 uint change = msg.value - amountToSend; 
-                payable(msg.sender).send(change);   
+                payable(msg.sender).transfer(change);   
             }
-            payable(contractOwner).send(amount);
 
             dronesCadastrados[idDrone-1].latitude_deg = "37.53170714024128";
             dronesCadastrados[idDrone-1].longitude_deg = "-122.26597954956488";

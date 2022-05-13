@@ -1,37 +1,36 @@
 from web3 import Web3
 from solcx import compile_source
 
+
+#address payable[] recipients
+
 # no ganache cli:
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
 
 # set pre-funded account 2 as sender
-w3.eth.default_account = w3.eth.accounts[1]
+w3.eth.default_account = w3.eth.accounts[0]
 
 compiled_sol = compile_source(
      '''
     pragma solidity >0.5.0; 
     
     contract Payable {
-        address payable public owner;
-
-        constructor() payable {
-            owner =  payable(msg.sender);
+     
+  
+        function getBalance() public view returns (uint){
+            return (address(this).balance);
         }
 
-        function deposit() external payable {}
+        function setDestinoOne() public payable {
+            
+          
+        }
+ 
+        function withdraw(address payable addressToSend) public  {
 
-        function notPayable() public {}
-
-        function Transfer(uint amount,address reciever) public payable returns (bool) {
-            require(amount >= 10 ,"Amount should higer then 10 Ether");
-            uint amountToSend = 10 ;
-            if(amount > amountToSend){
-                uint change = amount - amountToSend; 
-                payable(msg.sender).transfer(change);
-            }
-            payable(reciever).transfer(amountToSend);
-            return true;
-        }     
+            payable(addressToSend).transfer(10 ether); 
+            
+        }
     }
 
     ''',

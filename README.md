@@ -41,10 +41,10 @@ Demonstration
 
 --------------------------------------------------------------------------------------------------------------
 
-// pwd pega o o caminho
+#### pwd pega o caminho atual
 
-//ir para a raiz
-cd ~
+####ir para a raiz
+$ cd ~
 
 É necessário baixar e intalar a px4 na pasta PX4-Autopilot que está vazia, para isso:
     $ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/
@@ -64,40 +64,22 @@ Executar o gazebo com o drone typhoon_h480 no mundo aeroporto KSQL:
 
 You can bring it into the air by typing:
 pxh> 
-	commander takeoff	
+	$	commander takeoff	
 	
 Caso o drone não voar, setar essas variáveis:
 
 pxh>
-	param set NAV_RCL_ACT 0
-	param set NAV_DLL_ACT 0
+	$	param set NAV_RCL_ACT 0
+	$	param set NAV_DLL_ACT 0
 
 You can bring it down from air by typing:
 pxh>
-	commander land
-
-------------------------------------------------------------------------------------------------
-Para executar o teste em cpp(c++) .
-Gerar o executável do arquivo tests/test_takeoff.cpp. Para isso:
-
-Voltar paraa raiz:
-    $ cd ~
-
-Gerar o executavel:
-    $ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system
-    $ make build_tests
-
-Ir para a pasta do arquivo para rodar o executavel gerado usando a porta padrão 14540 e o protocolo udp:
-    $ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/build/bin
-    $ ./test_takeoff udp://:14540
-
-------------------------------------------------------------------------------------------------
-usando aqui
---------------------------------------------------------------------------------
-## para executar o ganhache, digitar no terminal
+	$	commander land
+	
+### Para executar o ganache, digitar no terminal
 $ ganache
 
-## Os arquivo de blockchain e smartcontracts e drone estão aqui
+### Os arquivo de blockchain e smartcontracts e drone estão aqui
 $ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/tests/MAVSDK-Python/tests
 
 

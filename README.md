@@ -63,17 +63,17 @@ $ cd ~
     $ make px4_sitl gazebo_typhoon_h480__ksql_airport
 
 ### You can bring it into the air by typing:
-pxh> 
+$pxh> 
 	$	commander takeoff	
 	
 ### Caso o drone não voar, setar essas variáveis:
 
-pxh>
+$pxh>
 	$	param set NAV_RCL_ACT 0
 	$	param set NAV_DLL_ACT 0
 
 ### You can bring it down from air by typing:
-pxh>
+$pxh>
 	$	commander land
 	
 ### Para executar o ganache, digitar no terminal

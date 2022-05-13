@@ -16,10 +16,8 @@ compiled_sol = compile_source(
         }
         mapping (uint => Drone ) public dronesCadastrados;
         uint  qntDroneCadastrados;
-        address payable public contractOwner;     
-        
-        constructor() payable {
-            contractOwner = payable(msg.sender);
+
+        constructor()  {
             qntDroneCadastrados = 0;
         }
 
@@ -32,24 +30,18 @@ compiled_sol = compile_source(
             return qntDroneCadastrados;
         }
 
-        function deposit() public payable {        }
-        function recieve() public payable {        }
-
         function getBalance() public view returns (uint){
-            return (contractOwner.balance);
+            return (address(this).balance);
         }
 
-        function withdraw(uint idDrone) public payable returns (uint){
+        function withdraw (address payable addressToSend, uint idDrone) public {
             require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
             require(msg.sender == dronesCadastrados[idDrone-1].droneOwner, "You are not drone owner!");
             require(dronesCadastrados[idDrone-1].flying != 0 , "Drone ja esta no destino!.");
 
             dronesCadastrados[idDrone-1].flying = 0;
-            uint amountToSend = 10 ether;
-
-            payable(msg.sender).transfer(amountToSend); 
+            payable(msg.sender).transfer(10 ether); 
             
-            return (getBalance()); 
         }
 
         function setDestinoOne(uint idDrone) public payable returns (bool){
@@ -64,7 +56,6 @@ compiled_sol = compile_source(
                 uint change = msg.value - amountToSend; 
                 payable(msg.sender).transfer(change);   
             }
-            (contractOwner).transfer(amount);
          
             dronesCadastrados[idDrone-1].latitude_deg = "37.5236476"; 
             dronesCadastrados[idDrone-1].longitude_deg = "-122.2551089";
@@ -85,7 +76,6 @@ compiled_sol = compile_source(
                 uint change = msg.value - amountToSend; 
                 payable(msg.sender).transfer(change);   
             }
-            payable(contractOwner).transfer(amount);
 
             dronesCadastrados[idDrone-1].latitude_deg = "37.5232366";
             dronesCadastrados[idDrone-1].longitude_deg = "-122.2611083";
@@ -105,7 +95,6 @@ compiled_sol = compile_source(
                 uint change = msg.value - amountToSend; 
                 payable(msg.sender).transfer(change);   
             }
-            (contractOwner).transfer(amount);
 
             dronesCadastrados[idDrone-1].latitude_deg = "37.53170714024128";
             dronesCadastrados[idDrone-1].longitude_deg = "-122.26597954956488";

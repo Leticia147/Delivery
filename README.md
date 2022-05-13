@@ -43,36 +43,36 @@ Demonstration
 
 #### pwd pega o caminho atual
 
-####ir para a raiz
+### Ir para a raiz
 $ cd ~
 
-É necessário baixar e intalar a px4 na pasta PX4-Autopilot que está vazia, para isso:
+### É necessário baixar e intalar a px4 na pasta PX4-Autopilot que está vazia, para isso:
     $ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/
     $ git clone https://github.com/PX4/PX4-Autopilot.git
 
-Ir para a pasta em que a px4 foi clonada:
+### Ir para a pasta em que a px4 foi clonada:
     $ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/PX4-Autopilot
 
-Para compilar primeira vez:
+### Para compilar primeira vez:
     $ make px4_sitl
 
-Executar o gazebo com o drone typhoon_h480 no mundo vazio (padrão):
+### Executar o gazebo com o drone typhoon_h480 no mundo vazio (padrão):
     $ make px4_sitl gazebo_typhoon_h480
 
-Executar o gazebo com o drone typhoon_h480 no mundo aeroporto KSQL:
+### Executar o gazebo com o drone typhoon_h480 no mundo aeroporto KSQL:
     $ make px4_sitl gazebo_typhoon_h480__ksql_airport
 
-You can bring it into the air by typing:
+### You can bring it into the air by typing:
 pxh> 
 	$	commander takeoff	
 	
-Caso o drone não voar, setar essas variáveis:
+### Caso o drone não voar, setar essas variáveis:
 
 pxh>
 	$	param set NAV_RCL_ACT 0
 	$	param set NAV_DLL_ACT 0
 
-You can bring it down from air by typing:
+### You can bring it down from air by typing:
 pxh>
 	$	commander land
 	

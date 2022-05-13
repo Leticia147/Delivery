@@ -95,10 +95,10 @@ Ir para a pasta do arquivo para rodar o executavel gerado usando a porta padrão
 usando aqui
 --------------------------------------------------------------------------------
 # para executar o ganhache, digitar no terminal
-ganache
+$ ganache
 
 # os arquivo de blockchain e smartcontracts e drone estão aqui
-/home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/tests/MAVSDK-Python/tests
+$ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/tests/MAVSDK-Python/tests
 
 
 # Tcc

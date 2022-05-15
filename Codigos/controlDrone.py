@@ -14,6 +14,8 @@
 #
 
 import asyncio
+from multiprocessing import synchronize
+from os import sync
 from mavsdk import System
 from web3 import Web3
 import time
@@ -21,7 +23,7 @@ from solcx import compile_source
 
 
 def atDestino(atual_latitude_deg,dest_latitude_deg, atual_longitude_deg,  dest_longitude_deg):
-    n = 4
+    n = 3
     m = n
     atual_latitude_deg_truncated = int(float(atual_latitude_deg) * 10**n)/10**n
     atual_longitude_deg_truncated = int(float(atual_longitude_deg) * 10**m)/10**m
@@ -44,8 +46,8 @@ async def run():
     w3.eth.default_account = w3.eth.accounts[1]
 
     # get abi
-    abi = abi = [{'inputs': [], 'name': 'getBalance', 'outputs': [{'internalType': 'uint256', 'name': '', 'type': 'uint256'}], 'stateMutability': 'view', 'type': 'function'}, {'inputs': [], 'name': 'setDestinoOne', 'outputs': [], 'stateMutability': 'payable', 'type': 'function'}, {'inputs': [{'internalType': 'address payable', 'name': 'addressToSend', 'type': 'address'}], 'name': 'withdraw', 'outputs': [], 'stateMutability': 'nonpayable', 'type': 'function'}]
-    contract_id = Web3.toChecksumAddress('0xca0ce4b7eafc7a6a773be5015c5c6d0eb52837c7')
+    abi = abi = [{'inputs': [], 'stateMutability': 'nonpayable', 'type': 'constructor'}, {'inputs': [], 'name': 'cadastrarDrone', 'outputs': [], 'stateMutability': 'nonpayable', 'type': 'function'}, {'inputs': [{'internalType': 'uint256', 'name': '', 'type': 'uint256'}], 'name': 'dronesCadastrados', 'outputs': [{'internalType': 'address payable', 'name': 'droneOwner', 'type': 'address'}, {'internalType': 'string', 'name': 'latitude_deg', 'type': 'string'}, {'internalType': 'string', 'name': 'longitude_deg', 'type': 'string'}, {'internalType': 'uint256', 'name': 'flying', 'type': 'uint256'}, {'internalType': 'uint256', 'name': 'idDrone', 'type': 'uint256'}], 'stateMutability': 'view', 'type': 'function'}, {'inputs': [], 'name': 'getBalance', 'outputs': [{'internalType': 'uint256', 'name': '', 'type': 'uint256'}], 'stateMutability': 'view', 'type': 'function'}, {'inputs': [{'internalType': 'uint256', 'name': 'idDrone', 'type': 'uint256'}], 'name': 'getStatusDrone', 'outputs': [{'internalType': 'string', 'name': '', 'type': 'string'}, {'internalType': 'string', 'name': '', 'type': 'string'}, {'internalType': 'uint256', 'name': '', 'type': 'uint256'}], 'stateMutability': 'view', 'type': 'function'}, {'inputs': [{'internalType': 'uint256', 'name': 'idDrone', 'type': 'uint256'}], 'name': 'inTheDestiny', 'outputs': [], 'stateMutability': 'nonpayable', 'type': 'function'}, {'inputs': [{'internalType': 'uint256', 'name': 'idDrone', 'type': 'uint256'}], 'name': 'setDestinoOne', 'outputs': [{'internalType': 'bool', 'name': '', 'type': 'bool'}], 'stateMutability': 'payable', 'type': 'function'}, {'inputs': [{'internalType': 'uint256', 'name': 'idDrone', 'type': 'uint256'}], 'name': 'setDestinoThree', 'outputs': [{'internalType': 'bool', 'name': '', 'type': 'bool'}], 'stateMutability': 'payable', 'type': 'function'}, {'inputs': [{'internalType': 'uint256', 'name': 'idDrone', 'type': 'uint256'}], 'name': 'setDestinoTwo', 'outputs': [{'internalType': 'bool', 'name': '', 'type': 'bool'}], 'stateMutability': 'payable', 'type': 'function'}, {'inputs': [], 'name': 'totalDronesCadastrados', 'outputs': [{'internalType': 'uint256', 'name': '', 'type': 'uint256'}], 'stateMutability': 'view', 'type': 'function'}]
+    contract_id = Web3.toChecksumAddress('0x4fb3cc0d5eb73bf4cc03e50ad16ce7fe92c93412')
     deliveryDrone = w3.eth.contract(address = contract_id,abi = abi)
     w3.eth.wait_for_transaction_receipt( deliveryDrone.functions.cadastrarDrone().transact())
 
@@ -54,7 +56,8 @@ async def run():
     print(deliveryDrone.functions.getStatusDrone(idDrone).call())
 
     while True:
-         
+
+
         while deliveryDrone.functions.getStatusDrone(idDrone).call()[2] != 1: 
             print("Aguardando voo")
             print(w3.eth.get_balance(w3.eth.default_account)/1000000000000000000)
@@ -86,12 +89,16 @@ async def run():
             await drone.action.arm() 
 
             print("-- Taking off")  
+            await drone.action.set_takeoff_altitude(80)
             await drone.action.takeoff()
-
-            await asyncio.sleep(1)
+            
+            async for position in drone.telemetry.position():                           
+                await asyncio.sleep(20)
+                break
 
             print("-- Going to position: ", deliveryDrone.functions.getStatusDrone(idDrone).call())
-            await drone.action.goto_location(float(deliveryDrone.functions.getStatusDrone(idDrone).call()[0]),float(deliveryDrone.functions.getStatusDrone(idDrone).call()[1]), 100 , 0)
+            
+            await drone.action.goto_location(float(deliveryDrone.functions.getStatusDrone(idDrone).call()[0]),float(deliveryDrone.functions.getStatusDrone(idDrone).call()[1]), 80 , 0)
 
             while True:
                 print("Staying connected, press Ctrl-C to exit")
@@ -109,7 +116,6 @@ async def run():
                             else:
                                 print("on ground! Pousado")
                                 deliveryDrone.functions.inTheDestiny(idDrone).transact()
-                                break
                         break  
                 break
             print("Delivery Sucessfull complete!")

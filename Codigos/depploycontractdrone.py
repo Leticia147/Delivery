@@ -34,14 +34,13 @@ compiled_sol = compile_source(
             return (address(this).balance);
         }
 
-        function withdraw (address payable addressToSend, uint idDrone) public {
+        function inTheDestiny (uint idDrone) public {
             require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
             require(msg.sender == dronesCadastrados[idDrone-1].droneOwner, "You are not drone owner!");
-            require(dronesCadastrados[idDrone-1].flying != 0 , "Drone ja esta no destino!.");
+            require(dronesCadastrados[idDrone-1].flying != 0 , "Drone ja esta no destino!. Nenhum valor para sacar");
 
             dronesCadastrados[idDrone-1].flying = 0;
             payable(msg.sender).transfer(10 ether); 
-            
         }
 
         function setDestinoOne(uint idDrone) public payable returns (bool){

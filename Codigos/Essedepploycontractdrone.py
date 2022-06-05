@@ -36,9 +36,9 @@ compiled_sol = compile_source(
         }
 
         function inTheDestiny (uint idDrone) public {
-            require(idDrone <= qntDrones && idDrone > 0 , "Drone nao cadastrado");
-            require(msg.sender == registerDrones[idDrone-1].droneOwner, "You are not drone owner!");
-            require(registerDrones[idDrone-1].flying != 0 , "Drone ja esta no destino!. Nenhum valor para sacar");
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(msg.sender == registerDrones[idDrone-1].droneOwner, "Voce nao e o dono do veiculo!");
+            require(registerDrones[idDrone-1].flying != 0 , "Veiculo ja esta no destino!");
 
             registerDrones[idDrone-1].flying = 0;
             payable(msg.sender).transfer(10 ether); 
@@ -46,9 +46,9 @@ compiled_sol = compile_source(
 
         function setDestinoOne(uint idDrone) public payable returns (bool){
             uint amount = msg.value;
-            require(amount >= 10 ether, "Amount should be higer then 10 Ether");
-            require(idDrone <= qntDrones && idDrone > 0 , "Drone nao cadastrado");
-            require(registerDrones[idDrone-1].flying == 0 , "Drone nao disponivel.");
+            require(amount >= 10 ether, "O valor deve ser maior que 10 Ether");
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(registerDrones[idDrone-1].flying == 0 , "Veiculo nao esta disponivel.");
           
             uint amountToSend = 10 ether;
 
@@ -66,9 +66,9 @@ compiled_sol = compile_source(
         
         function setDestinoTwo(uint idDrone) public payable returns (bool){
             uint amount = msg.value;
-            require(amount >= 10 ether, "Amount should be higer then 10 Ether");
-            require(idDrone <= qntDrones && idDrone > 0 , "Drone nao cadastrado");
-            require(registerDrones[idDrone-1].flying == 0 , "Drone nao disponivel.");
+            require(amount >= 10 ether, "O valor deve ser maior que 10 Ether");
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(registerDrones[idDrone-1].flying == 0 , "Veiculo nao esta disponivel.");
           
             uint amountToSend = 10 ether;
 
@@ -85,9 +85,9 @@ compiled_sol = compile_source(
         }
         function setDestinoThree(uint idDrone) public payable returns (bool){
             uint amount = msg.value;
-            require(amount >= 10 ether, "Amount should be higer then 10 Ether");
-            require(idDrone <= qntDrones && idDrone > 0 , "Drone nao cadastrado");
-            require(registerDrones[idDrone-1].flying == 0 , "Drone nao disponivel.");
+            require(amount >= 10 ether, "O valor deve ser maior que 10 Ether");
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(registerDrones[idDrone-1].flying == 0 , "Veiculo nao esta disponivel.");
           
             uint amountToSend = 10 ether;
 

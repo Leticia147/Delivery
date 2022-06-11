@@ -1,6 +1,14 @@
 # Blockchain-Based Delivery Drone System
 
+Proposta de um sistema de entrega com veículos aéreos não tripulados baseados em Blockchain e Smart Contract. 2022. 
+
+Trabalho de Conclusão de Curso – Curso de Engenharia de Computação, Universidade Tecnológica Federal do Paraná. Pato Branco, 2022.
+
+
+Repositorio referente ao trabalho - Proposta de um sistema de entrega com veículos aéreos não tripulados baseados em Blockchain e Smart Contract.
+
 --------------------------------------------------------------------------------------------------------------
+
 Após clonar o projeto.
 
 

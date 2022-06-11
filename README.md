@@ -18,7 +18,6 @@ Após clonar o projeto.
 
 ### Instalar a px4 na pasta PX4-Autopilot:
 
-    	$ cd ~/TCC/integration/blockchain-based-delivery-drone-system/
     	$ git clone https://github.com/PX4/PX4-Autopilot.git
 
 Ir para a pasta em que a px4 foi clonada:
@@ -65,7 +64,7 @@ Para executar Ganache CLI:
 
 Os arquivos com os códigos para os testes estão em:
 
-	$ 	cd ~/TCC/integration/blockchain-based-delivery-drone-system/Codigos/Codigos
+	$ 	cd ~/Codigos/Codigos
 	
 ### Necessário instalar as bibliotecas para Python 3
 

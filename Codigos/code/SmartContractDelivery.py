@@ -44,7 +44,7 @@ compiled_sol = compile_source(
             payable(msg.sender).transfer(10 ether); 
         }
 
-        function setDestinoOne(uint idDrone) public payable returns (bool){
+        function setDestinyOne(uint idDrone) public payable returns (bool){
             uint amount = msg.value;
             require(amount >= 10 ether, "O valor deve ser maior que 10 Ether");
             require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
@@ -64,7 +64,7 @@ compiled_sol = compile_source(
             return true;
         }
         
-        function setDestinoTwo(uint idDrone) public payable returns (bool){
+        function setDestinyTwo(uint idDrone) public payable returns (bool){
             uint amount = msg.value;
             require(amount >= 10 ether, "O valor deve ser maior que 10 Ether");
             require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
@@ -83,7 +83,7 @@ compiled_sol = compile_source(
             
             return true;
         }
-        function setDestinoThree(uint idDrone) public payable returns (bool){
+        function setDestinyThree(uint idDrone) public payable returns (bool){
             uint amount = msg.value;
             require(amount >= 10 ether, "O valor deve ser maior que 10 Ether");
             require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");

@@ -22,7 +22,7 @@ The drone can be flown by typing:
 
 ### Build (Using the Gazebo Simulator)
 
-    $ cd ~//blockchain-based-delivery-drone-system/PX4-Autopilot
+    $ cd ~/blockchain-based-delivery-drone-system/PX4-Autopilot
     $ make px4_sitl gazebo
 
 ## Install MAVSDK
@@ -46,41 +46,56 @@ Demonstration
 ### Ir para a raiz
 $ cd ~
 
-### É necessário baixar e intalar a px4 na pasta PX4-Autopilot que está vazia, para isso:
-    $ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/
+### Para instalar a px4 na pasta PX4-Autopilot:
+    $ cd ~/TCC/integration/blockchain-based-delivery-drone-system/
     $ git clone https://github.com/PX4/PX4-Autopilot.git
 
 ### Ir para a pasta em que a px4 foi clonada:
-    $ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/PX4-Autopilot
+    $ cd /PX4-Autopilot
 
-### Para compilar primeira vez:
+### Para compilar ã primeira vez:
     $ make px4_sitl
 
-### Executar o gazebo com o drone typhoon_h480 no mundo vazio (padrão):
+### Executar o gazebo com o drone typhoon_h480 no ambiente vazio (padrão):
     $ make px4_sitl gazebo_typhoon_h480
 
-### Executar o gazebo com o drone typhoon_h480 no mundo aeroporto KSQL:
+### Executar o gazebo com o drone typhoon_h480 e o ambiente aeroporto KSQL:
     $ make px4_sitl gazebo_typhoon_h480__ksql_airport
 
-### You can bring it into the air by typing:
-$ pxh> 
-	$	commander takeoff	
 	
-### Caso o drone não voar, setar essas variáveis:
+### Setar as variáveis para permitir a execução em software in the loop é preciso desabilitar RC failsafe:
 
 $ pxh>
 $	param set NAV_RCL_ACT 0
 $	param set NAV_DLL_ACT 0
 
-### You can bring it down from air by typing:
+### É possível realizar alguns testes com a simulação do Gazebo, como:
+### Levantar voo:
+$ pxh> 
+$	commander takeoff	
+	
+### Pousar:
 $ pxh>
 $	commander land
 	
-### Para executar o ganache, digitar no terminal
+	
+### Para executar o ganache CLI:
 $ ganache
 
-### Os arquivo de blockchain e smartcontracts e drone estão aqui
-$ cd /home/leticia/Documentos/TCC/integration/blockchain-based-delivery-drone-system/tests/MAVSDK-Python/tests
+### Os arquivos com os códigos estão em:
+$ cd ~/TCC/integration/blockchain-based-delivery-drone-system/Codigos/Codigos
 
+Para desploy do Smart Contract na Blockchain Ethereum local fornecida pelo Ganache:
 
-# Tcc
+$ 	SmartContractDelivery.py 
+	
+Para integração VANT-Smart Contract:
+	
+$ 	CadastrarVeiculo.PY
+
+Para solicitação de entrega: 
+
+$	DestinoOne.py
+$	DestinoTwo.py
+$	DestinoThree.py
+

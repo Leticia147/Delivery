@@ -55,7 +55,7 @@ Para executar Ganache CLI:
 
 	$ 	ganache
 
-Os arquivos com os códigos estão em:
+Os arquivos com os códigos para os testes estão em:
 
 	$ 	cd ~/TCC/integration/blockchain-based-delivery-drone-system/Codigos/Codigos
 	

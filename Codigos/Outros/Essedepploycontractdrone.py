@@ -9,6 +9,7 @@ compiled_sol = compile_source(
      contract Delivery {
         struct Drone {
             address payable droneOwner;
+            address payable deliveryPayer;
             string latitude_deg;
             string longitude_deg;
             uint flying;
@@ -42,6 +43,24 @@ compiled_sol = compile_source(
 
             registerDrones[idDrone-1].flying = 0;
             payable(msg.sender).transfer(10 ether); 
+        }
+
+        function cancelDelivery (uint idDrone) public payable returns (bool) {
+            uint amount = msg.value;
+            require(amount >= 2 ether, "O valor deve ser maior que 10 Ether");
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(msg.sender == registerDrones[idDrone-1].droneOwner, "Voce nao e o dono do veiculo!");
+            require(registerDrones[idDrone-1].flying != 0 , "Veiculo ja esta no destino!");
+
+            uint amountToSend = 2 ether;
+
+            if(amount > amountToSend){
+                uint change = msg.value - amountToSend; 
+                payable(msg.sender).transfer(change);   
+            }
+
+            registerDrones[idDrone-1].flying = 3;
+            payable(registerDrones[idDrone-1].deliveryPayer).transfer(10 ether); 
         }
 
         function setDestinoOne(uint idDrone) public payable returns (bool){
@@ -120,8 +139,14 @@ bytecode = contract_interface['bin']
 # get abi
 abi = contract_interface['abi']
 
-# ganache cli:
+print(abi)
+
+# web3.py instance   ganache interface
+#w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
+
+# no ganache cli:
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
+
 
 # set pre-funded account as sender
 w3.eth.default_account = w3.eth.accounts[0]
@@ -129,5 +154,18 @@ w3.eth.default_account = w3.eth.accounts[0]
 Delivery = w3.eth.contract(abi=abi, bytecode=bytecode)
 
 # Submit the transaction that deploys the contract
-Delivery.constructor().transact()
+tx_hash = Delivery.constructor().transact()
 
+# Wait for the transaction to be mined, and get the transaction receipt
+tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+delivery = w3.eth.contract(
+     address=tx_receipt.contractAddress,
+     abi=abi
+ )
+
+#print(delivery.functions.getDestino().call())
+
+#tx_hash = delivery.functions.setDestino('0','0','0').transact()
+#tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+#print(delivery.functions.getDestino().call())

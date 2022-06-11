@@ -22,7 +22,7 @@ compiled_sol = compile_source(
         }
 
         function registerDrone() public returns (uint)  {
-            registerDrones[qntDrones] = Drone(payable(msg.sender),"37.5236476", "0", 0, qntDrones );
+            registerDrones[qntDrones] = Drone(payable(msg.sender),"0", "0", 0, qntDrones );
             qntDrones = qntDrones + 1;
             return qntDrones;
         }
@@ -120,14 +120,8 @@ bytecode = contract_interface['bin']
 # get abi
 abi = contract_interface['abi']
 
-print(abi)
-
-# web3.py instance   ganache interface
-#w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
-
-# no ganache cli:
+# ganache cli:
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
-
 
 # set pre-funded account as sender
 w3.eth.default_account = w3.eth.accounts[0]
@@ -135,18 +129,5 @@ w3.eth.default_account = w3.eth.accounts[0]
 Delivery = w3.eth.contract(abi=abi, bytecode=bytecode)
 
 # Submit the transaction that deploys the contract
-tx_hash = Delivery.constructor().transact()
+Delivery.constructor().transact()
 
-# Wait for the transaction to be mined, and get the transaction receipt
-tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-
-delivery = w3.eth.contract(
-     address=tx_receipt.contractAddress,
-     abi=abi
- )
-
-#print(delivery.functions.getDestino().call())
-
-#tx_hash = delivery.functions.setDestino('0','0','0').transact()
-#tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-#print(delivery.functions.getDestino().call())

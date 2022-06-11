@@ -9,6 +9,7 @@ compiled_sol = compile_source(
      contract Delivery {
         struct Drone {
             address payable droneOwner;
+            address payable deliveryPayer;
             string latitude_deg;
             string longitude_deg;
             uint flying;
@@ -42,6 +43,24 @@ compiled_sol = compile_source(
 
             registerDrones[idDrone-1].flying = 0;
             payable(msg.sender).transfer(10 ether); 
+        }
+
+        function cancelDelivery (uint idDrone) public payable returns (bool) {
+            uint amount = msg.value;
+            require(amount >= 2 ether, "O valor deve ser maior que 10 Ether");
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(msg.sender == registerDrones[idDrone-1].droneOwner, "Voce nao e o dono do veiculo!");
+            require(registerDrones[idDrone-1].flying != 0 , "Veiculo ja esta no destino!");
+
+            uint amountToSend = 2 ether;
+
+            if(amount > amountToSend){
+                uint change = msg.value - amountToSend; 
+                payable(msg.sender).transfer(change);   
+            }
+
+            registerDrones[idDrone-1].flying = 3;
+            payable(registerDrones[idDrone-1].deliveryPayer).transfer(10 ether); 
         }
 
         function setDestinoOne(uint idDrone) public payable returns (bool){

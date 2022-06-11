@@ -22,7 +22,7 @@ compiled_sol = compile_source(
         }
 
         function registerDrone() public returns (uint)  {
-            registerDrones[qntDrones] = Drone(payable(msg.sender),"37.5236476", "0", 0, qntDrones );
+            registerDrones[qntDrones] = Drone(payable(msg.sender),"0", "0", 0, qntDrones );
             qntDrones = qntDrones + 1;
             return qntDrones;
         }

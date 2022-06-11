@@ -1,101 +1,81 @@
 # Blockchain-Based Delivery Drone System
 
-## Build PX4-Autopilot
-
-### Build (Using the jMAVSim Simulator)
-
-First we'll build a simulated target using a console environment. This allows us to validate the system setup before moving on to real hardware and an IDE.
-
-Navigate into the PX4-Autopilot directory and start jMAVSim using the following command:
-
-
-
-    $ cd @PROJECT_FOLDER@/blockchain-based-delivery-drone-system
-    $ git submodule update --init --recursive
-    $ cd PX4-Autopilot
-    $ bash ./Tools/setup/ubuntu.sh
-    $ make px4_sitl jmavsim
-
-The drone can be flown by typing:
-
-    $ pxh> commander takeoff
-
-### Build (Using the Gazebo Simulator)
-
-    $ cd ~/blockchain-based-delivery-drone-system/PX4-Autopilot
-    $ make px4_sitl gazebo
-
-## Install MAVSDK
-
-First, download the prebuilt C++ [MAVSDK library version 1.0.8](https://github.com/mavlink/MAVSDK/releases/tag/v1.0.8)
-
-
-
-## Usage
-
-WIP
-
-Demonstration
-
-![](figures/out.mp4)
-
 --------------------------------------------------------------------------------------------------------------
+Após clonar o projeto.
 
-#### pwd pega o caminho atual
 
-### Ir para a raiz
-$ cd ~
+### Instalar o Gazebo  https://gazebosim.org/
 
-### Para instalar a px4 na pasta PX4-Autopilot:
-    $ cd ~/TCC/integration/blockchain-based-delivery-drone-system/
-    $ git clone https://github.com/PX4/PX4-Autopilot.git
+	https://docs.px4.io/v1.12/en/simulation/gazebo.html
 
-### Ir para a pasta em que a px4 foi clonada:
-    $ cd /PX4-Autopilot
+### Instalar a px4 na pasta PX4-Autopilot:
 
-### Para compilar ã primeira vez:
-    $ make px4_sitl
+    	$ cd ~/TCC/integration/blockchain-based-delivery-drone-system/
+    	$ git clone https://github.com/PX4/PX4-Autopilot.git
 
-### Executar o gazebo com o drone typhoon_h480 no ambiente vazio (padrão):
-    $ make px4_sitl gazebo_typhoon_h480
+Ir para a pasta em que a px4 foi clonada:
+
+    	$ cd /PX4-Autopilot
+
+Para compilar a PX4:
+
+    	$ make px4_sitl
+
+Executar o gazebo com o drone typhoon_h480 no ambiente vazio (padrão):
+
+    	$ make px4_sitl gazebo_typhoon_h480
 
 ### Executar o gazebo com o drone typhoon_h480 e o ambiente aeroporto KSQL:
-    $ make px4_sitl gazebo_typhoon_h480__ksql_airport
+
+    	$ make px4_sitl gazebo_typhoon_h480__ksql_airport
 
 	
-### Setar as variáveis para permitir a execução em software in the loop é preciso desabilitar RC failsafe:
+Setar as variáveis desabilitando o RC failsafe para permitir a execução em software in the loop:
 
-$ pxh>
-$	param set NAV_RCL_ACT 0
-$	param set NAV_DLL_ACT 0
+	$ pxh>
+	$	param set NAV_RCL_ACT 0
+	$	param set NAV_DLL_ACT 0
 
-### É possível realizar alguns testes com a simulação do Gazebo, como:
-### Levantar voo:
-$ pxh> 
-$	commander takeoff	
+É possível realizar alguns testes com o veículo na simulação do Gazebo:
+Levantar voo:
+
+	$ pxh> 
+	$	commander takeoff	
 	
-### Pousar:
-$ pxh>
-$	commander land
+Pousar:
+
+	$ pxh>
+	$	commander land
 	
+### Instalar a ferramenta Ganache CLI https://trufflesuite.com/ganache/ 
+
+	https://www.npmjs.com/package/ganache-cli
 	
-### Para executar o ganache CLI:
-$ ganache
+Para executar Ganache CLI:
 
-### Os arquivos com os códigos estão em:
-$ cd ~/TCC/integration/blockchain-based-delivery-drone-system/Codigos/Codigos
+	$ 	ganache
 
-Para desploy do Smart Contract na Blockchain Ethereum local fornecida pelo Ganache:
+Os arquivos com os códigos estão em:
 
-$ 	SmartContractDelivery.py 
+	$ 	cd ~/TCC/integration/blockchain-based-delivery-drone-system/Codigos/Codigos
 	
-Para integração VANT-Smart Contract:
+### Necessário instalar as bibliotecas para Python 3
+
+	mavsdk: https://github.com/mavlink/MAVSDK-Python
+	web3: 	https://web3py.readthedocs.io/en/stable/   	https://pypi.org/project/web3/
+	solcx:  https://solcx.readthedocs.io/en/latest/ 	https://pypi.org/project/py-solc-x/	
+
+#### Para desploy do Smart Contract na Blockchain Ethereum local fornecida pelo Ganache:
+
+	$ 	SmartContractDelivery.py 
 	
-$ 	CadastrarVeiculo.PY
+#### Para integração VANT-Smart Contract:
+	
+	$ 	CadastrarVeiculo.PY
 
-Para solicitação de entrega: 
+#### Para solicitação de entrega: 
 
-$	DestinoOne.py
-$	DestinoTwo.py
-$	DestinoThree.py
+	$	DestinoOne.py
+	$	DestinoTwo.py
+	$	DestinoThree.py
 

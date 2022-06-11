@@ -14,41 +14,41 @@ compiled_sol = compile_source(
             uint flying;
             uint idDrone;
         }
-        mapping (uint => Drone ) public dronesCadastrados;
-        uint  qntDroneCadastrados;
-
+        mapping (uint => Drone ) public registerDrones;
+        uint qntDrones;
+    
         constructor()  {
-            qntDroneCadastrados = 0;
+            qntDrones = 0;
         }
 
-        function cadastrarDrone() public  {
-            dronesCadastrados[qntDroneCadastrados] = Drone(payable(msg.sender),"37.5236476", "-122.2551089", 0, qntDroneCadastrados );
-            qntDroneCadastrados = qntDroneCadastrados + 1;
+        function registerDrone() public returns (uint)  {
+            registerDrones[qntDrones] = Drone(payable(msg.sender),"37.5236476", "0", 0, qntDrones );
+            qntDrones = qntDrones + 1;
+            return qntDrones;
         }
 
-        function totalDronesCadastrados() public view returns (uint){
-            return qntDroneCadastrados;
+        function getRegisterDrones() public view returns (uint){
+            return qntDrones;
         }
 
         function getBalance() public view returns (uint){
             return (address(this).balance);
         }
 
-        function withdraw (address payable addressToSend, uint idDrone) public {
-            require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
-            require(msg.sender == dronesCadastrados[idDrone-1].droneOwner, "You are not drone owner!");
-            require(dronesCadastrados[idDrone-1].flying != 0 , "Drone ja esta no destino!.");
+        function inTheDestiny (uint idDrone) public {
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(msg.sender == registerDrones[idDrone-1].droneOwner, "Voce nao e o dono do veiculo!");
+            require(registerDrones[idDrone-1].flying != 0 , "Veiculo ja esta no destino!");
 
-            dronesCadastrados[idDrone-1].flying = 0;
+            registerDrones[idDrone-1].flying = 0;
             payable(msg.sender).transfer(10 ether); 
-            
         }
 
         function setDestinoOne(uint idDrone) public payable returns (bool){
             uint amount = msg.value;
-            require(amount >= 10 ether, "Amount should be higer then 10 Ether");
-            require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
-            require(dronesCadastrados[idDrone-1].flying == 0 , "Drone nao disponivel.");
+            require(amount >= 10 ether, "O valor deve ser maior que 10 Ether");
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(registerDrones[idDrone-1].flying == 0 , "Veiculo nao esta disponivel.");
           
             uint amountToSend = 10 ether;
 
@@ -57,18 +57,18 @@ compiled_sol = compile_source(
                 payable(msg.sender).transfer(change);   
             }
          
-            dronesCadastrados[idDrone-1].latitude_deg = "37.5236476"; 
-            dronesCadastrados[idDrone-1].longitude_deg = "-122.2551089";
-            dronesCadastrados[idDrone-1].flying = 1;
+            registerDrones[idDrone-1].latitude_deg = "37.5236488"; 
+            registerDrones[idDrone-1].longitude_deg = "-122.25511039999999";
+            registerDrones[idDrone-1].flying = 1;
             
             return true;
         }
         
         function setDestinoTwo(uint idDrone) public payable returns (bool){
             uint amount = msg.value;
-            require(amount >= 10 ether, "Amount should be higer then 10 Ether");
-            require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
-            require(dronesCadastrados[idDrone-1].flying == 0 , "Drone nao disponivel.");
+            require(amount >= 10 ether, "O valor deve ser maior que 10 Ether");
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(registerDrones[idDrone-1].flying == 0 , "Veiculo nao esta disponivel.");
           
             uint amountToSend = 10 ether;
 
@@ -77,17 +77,17 @@ compiled_sol = compile_source(
                 payable(msg.sender).transfer(change);   
             }
 
-            dronesCadastrados[idDrone-1].latitude_deg = "37.5232366";
-            dronesCadastrados[idDrone-1].longitude_deg = "-122.2611083";
-            dronesCadastrados[idDrone-1].flying = 1;
+            registerDrones[idDrone-1].latitude_deg = "37.52520345925217"; 
+            registerDrones[idDrone-1].longitude_deg = "-122.2561141299747";
+            registerDrones[idDrone-1].flying = 1;
             
             return true;
         }
         function setDestinoThree(uint idDrone) public payable returns (bool){
             uint amount = msg.value;
-            require(amount >= 10 ether, "Amount should be higer then 10 Ether");
-            require(idDrone <= qntDroneCadastrados && idDrone > 0 , "Drone nao cadastrado");
-            require(dronesCadastrados[idDrone-1].flying == 0 , "Drone nao disponivel.");
+            require(amount >= 10 ether, "O valor deve ser maior que 10 Ether");
+            require(idDrone <= qntDrones && idDrone > 0 , "Veiculo nao esta cadastrado");
+            require(registerDrones[idDrone-1].flying == 0 , "Veiculo nao esta disponivel.");
           
             uint amountToSend = 10 ether;
 
@@ -96,15 +96,15 @@ compiled_sol = compile_source(
                 payable(msg.sender).transfer(change);   
             }
 
-            dronesCadastrados[idDrone-1].latitude_deg = "37.53170714024128";
-            dronesCadastrados[idDrone-1].longitude_deg = "-122.26597954956488";
-            dronesCadastrados[idDrone-1].flying = 1;
+            registerDrones[idDrone-1].latitude_deg = "37.52402990567395";
+            registerDrones[idDrone-1].longitude_deg = "-122.25355683927624";
+            registerDrones[idDrone-1].flying = 1;
             
             return true;
         }
 
         function getStatusDrone(uint idDrone)public view returns (string memory, string memory,  uint)  {
-            return (dronesCadastrados[idDrone -1 ].latitude_deg, dronesCadastrados[idDrone -1].longitude_deg, dronesCadastrados[idDrone -1].flying);
+            return (registerDrones[idDrone -1 ].latitude_deg, registerDrones[idDrone -1].longitude_deg, registerDrones[idDrone -1].flying);
         }
      }  
      ''',
